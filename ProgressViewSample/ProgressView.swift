@@ -79,19 +79,15 @@ final class ProgressView: UIView {
     private func commonInit() {
         progressTintColor = defaultProgressTintColor
         trackTintColor = defaultTrackTintColor
+        
+        layer.addSublayer(progressLayer)
     }
 
     // MARK: - Overrides
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        let color = progressLayer.strokeColor ?? defaultProgressTintColor.cgColor
-
-        progressLayer.removeFromSuperlayer()
-        progressLayer = makeShapeLayer(rect: bounds, color: color)
-        layer.addSublayer(progressLayer)
-
-        setProgressWithoutAnimation(_progress)
+        setLineFor(layer: progressLayer, rect: bounds)
     }
 
     // MARK: - Public
@@ -128,21 +124,32 @@ private extension ProgressView {
     }
 
     private func makeShapeLayer(rect: CGRect, color: CGColor) -> CAShapeLayer {
+        let layer = CAShapeLayer()
+        setLineFor(layer: layer, rect: rect)
+        layer.strokeColor = color
+        
+        // Disable default animation for `strokeEnd`
+        layer.actions = ["strokeEnd": NSNull()]
+        
+        return layer
+    }
+    
+    private func setLineFor(layer: CAShapeLayer, rect: CGRect, animationDisabled: Bool = true) {
+        CATransaction.setDisableActions(animationDisabled)
+        
+        layer.path = makeLine(rect)
+        layer.lineWidth = rect.height
+        
+        CATransaction.setDisableActions(false)
+    }
+    
+    private func makeLine(_ rect: CGRect) -> CGPath {
         let start = CGPoint(x: rect.origin.x, y: rect.midY)
         let end = CGPoint(x: rect.maxX, y: rect.midY)
-
-        return makeShapeLayer(start: start, end: end, lineWidth: rect.height, color: color)
-    }
-
-    private func makeShapeLayer(start: CGPoint, end: CGPoint, lineWidth: CGFloat, color: CGColor) -> CAShapeLayer {
+        
         let path = UIBezierPath()
         path.move(to: start)
         path.addLine(to: end)
-
-        let layer = CAShapeLayer()
-        layer.path = path.cgPath
-        layer.lineWidth = lineWidth
-        layer.strokeColor = color
-        return layer
+        return path.cgPath
     }
 }
