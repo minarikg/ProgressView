@@ -87,7 +87,7 @@ final class ProgressView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        setLineFor(layer: progressLayer, rect: bounds)
+        setLine(for: progressLayer, rect: bounds)
     }
 
     // MARK: - Public
@@ -125,7 +125,7 @@ private extension ProgressView {
 
     private func makeShapeLayer(rect: CGRect, color: CGColor) -> CAShapeLayer {
         let layer = CAShapeLayer()
-        setLineFor(layer: layer, rect: rect)
+        setLine(for: layer, rect: rect)
         layer.strokeColor = color
         
         // Disable default animation for `strokeEnd`
@@ -134,7 +134,7 @@ private extension ProgressView {
         return layer
     }
     
-    private func setLineFor(layer: CAShapeLayer, rect: CGRect, animationDisabled: Bool = true) {
+    private func setLine(for layer: CAShapeLayer, rect: CGRect, animationDisabled: Bool = true) {
         CATransaction.setDisableActions(animationDisabled)
         
         layer.path = makeLine(rect)
