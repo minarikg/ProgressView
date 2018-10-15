@@ -18,6 +18,8 @@ class ViewController: UIViewController {
         ProgressView.appearance().progressTintColor = UIColor(red: 143, green: 192, blue: 169)
         ProgressView.appearance().trackTintColor = UIColor(red: 206, green: 207, blue: 199)
 
+        UISwitch.appearance().onTintColor = UIColor(red: 143, green: 192, blue: 169)
+        
         progressView.progress = 0.2
         view.addSubview(progressView)
 
