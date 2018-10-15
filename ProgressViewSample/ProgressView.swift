@@ -4,22 +4,22 @@ import UIKit
 
 final class ProgressView: UIView {
     // MARK: - Colors
-    private let kDefualtProgressTintColor = UIColor(red: 15, green: 120, blue: 250)
-    private let kDefualtTrackTintColor = UIColor(red: 182, green: 182, blue: 182)
+    private let kDefaultProgressTintColor = UIColor(red: 15, green: 120, blue: 250)
+    private let kDefaultTrackTintColor = UIColor(red: 182, green: 182, blue: 182)
 
-    private var defualtProgressTintColor: UIColor {
-        return type(of: self).appearance().progressTintColor ?? kDefualtProgressTintColor
+    private var defaultProgressTintColor: UIColor {
+        return type(of: self).appearance().progressTintColor ?? kDefaultProgressTintColor
     }
 
-    private var defualtTrackTintColor: UIColor {
-        return type(of: self).appearance().trackTintColor ?? kDefualtTrackTintColor
+    private var defaultTrackTintColor: UIColor {
+        return type(of: self).appearance().trackTintColor ?? kDefaultTrackTintColor
     }
 
     // Set to `dynamic` in order to support to change via UIAppearance
     @objc public dynamic var progressTintColor: UIColor? {
         didSet {
             guard let progressTintColor = progressTintColor else {
-                progressLayer.strokeColor = defualtProgressTintColor.cgColor
+                progressLayer.strokeColor = defaultProgressTintColor.cgColor
                 return
             }
 
@@ -34,7 +34,7 @@ final class ProgressView: UIView {
         }
         set {
             guard let trackTintColor = newValue else {
-                backgroundColor = defualtTrackTintColor
+                backgroundColor = defaultTrackTintColor
                 return
             }
 
@@ -44,7 +44,7 @@ final class ProgressView: UIView {
 
     // MARK: - Layer
     private lazy var progressLayer: CAShapeLayer = {
-        return makeShapeLayer(rect: bounds, color: defualtProgressTintColor.cgColor)
+        return makeShapeLayer(rect: bounds, color: defaultProgressTintColor.cgColor)
     }()
 
     // MARK: - Progress
@@ -77,15 +77,15 @@ final class ProgressView: UIView {
     }
 
     private func commonInit() {
-        progressTintColor = defualtProgressTintColor
-        trackTintColor = defualtTrackTintColor
+        progressTintColor = defaultProgressTintColor
+        trackTintColor = defaultTrackTintColor
     }
 
     // MARK: - Overrides
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        let color = progressLayer.strokeColor ?? defualtProgressTintColor.cgColor
+        let color = progressLayer.strokeColor ?? defaultProgressTintColor.cgColor
 
         progressLayer.removeFromSuperlayer()
         progressLayer = makeShapeLayer(rect: bounds, color: color)

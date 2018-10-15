@@ -4,8 +4,8 @@ import XCTest
 @testable import ProgressViewSample
 
 class ProgressViewTests: XCTestCase {
-    private let expectedDefualtProgressTintColor = UIColor(red: 15, green: 120, blue: 250)
-    private let expectedDefualtTrackTintColor = UIColor(red: 182, green: 182, blue: 182)
+    private let expectedDefaultProgressTintColor = UIColor(red: 15, green: 120, blue: 250)
+    private let expectedDefaultTrackTintColor = UIColor(red: 182, green: 182, blue: 182)
 
     override func tearDown() {
         super.tearDown()
@@ -64,8 +64,8 @@ class ProgressViewTests: XCTestCase {
         let sut = ProgressView(frame: .zero)
 
         // Assert
-        XCTAssertEqual(sut.progressTintColor, expectedDefualtProgressTintColor)
-        XCTAssertEqual(sut.trackTintColor, expectedDefualtTrackTintColor)
+        XCTAssertEqual(sut.progressTintColor, expectedDefaultProgressTintColor)
+        XCTAssertEqual(sut.trackTintColor, expectedDefaultTrackTintColor)
     }
 
     func testColors_whenChanged_shouldReflectNewColors() {
