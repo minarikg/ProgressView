@@ -21,7 +21,6 @@ final class ProgressViewTests: XCTestCase {
         XCTAssertEqual(sut.progress, 0)
     }
 
-
     func testProgress_whenHigherThen1_shouldBe1() {
         // Arrange
         let sut = ProgressView(frame: .zero)
