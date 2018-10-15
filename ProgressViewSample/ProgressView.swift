@@ -8,8 +8,6 @@ final class ProgressView: UIView {
     private let kDefaultTrackTintColor = UIColor(red: 182, green: 182, blue: 182)
 
     // Set to `dynamic` in order to support to change via UIAppearance
-    // Note: iOS applies appearance changes when a view enters a window, it doesn’t change the appearance of a view that’s already in a window.
-    // To change the appearance of a view that’s currently in a window, remove the view from the view hierarchy and then put it back.
     @objc public dynamic var progressTintColor: UIColor? {
         didSet {
             guard let progressTintColor = progressTintColor else {

@@ -13,6 +13,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         // You can use UIAppearance proxy to change colors for all ProgressView instances
+        // Note: iOS applies appearance changes when a view enters a window, it doesn’t change the appearance of a view that’s already in a window.
+        // To change the appearance of a view that’s currently in a window, remove the view from the view hierarchy and then put it back.
         ProgressView.appearance().progressTintColor = UIColor(red: 143, green: 192, blue: 169)
         ProgressView.appearance().trackTintColor = UIColor(red: 206, green: 207, blue: 199)
 
