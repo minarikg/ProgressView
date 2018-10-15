@@ -7,19 +7,13 @@ final class ProgressView: UIView {
     private let kDefaultProgressTintColor = UIColor(red: 15, green: 120, blue: 250)
     private let kDefaultTrackTintColor = UIColor(red: 182, green: 182, blue: 182)
 
-    private var defaultProgressTintColor: UIColor {
-        return type(of: self).appearance().progressTintColor ?? kDefaultProgressTintColor
-    }
-
-    private var defaultTrackTintColor: UIColor {
-        return type(of: self).appearance().trackTintColor ?? kDefaultTrackTintColor
-    }
-
     // Set to `dynamic` in order to support to change via UIAppearance
+    // Note: iOS applies appearance changes when a view enters a window, it doesn’t change the appearance of a view that’s already in a window.
+    // To change the appearance of a view that’s currently in a window, remove the view from the view hierarchy and then put it back.
     @objc public dynamic var progressTintColor: UIColor? {
         didSet {
             guard let progressTintColor = progressTintColor else {
-                progressLayer.strokeColor = defaultProgressTintColor.cgColor
+                progressLayer.strokeColor = kDefaultProgressTintColor.cgColor
                 return
             }
 
@@ -29,12 +23,9 @@ final class ProgressView: UIView {
 
     // Set to `dynamic` in order to support to change via UIAppearance
     @objc public dynamic var trackTintColor: UIColor? {
-        get {
-            return backgroundColor
-        }
-        set {
-            guard let trackTintColor = newValue else {
-                backgroundColor = defaultTrackTintColor
+        didSet {
+            guard let trackTintColor = trackTintColor else {
+                backgroundColor = kDefaultTrackTintColor
                 return
             }
 
@@ -44,7 +35,7 @@ final class ProgressView: UIView {
 
     // MARK: - Layer
     private lazy var progressLayer: CAShapeLayer = {
-        return makeShapeLayer(rect: bounds, color: defaultProgressTintColor.cgColor)
+        return makeShapeLayer(rect: bounds, color: kDefaultProgressTintColor.cgColor)
     }()
 
     // MARK: - Progress
@@ -66,19 +57,19 @@ final class ProgressView: UIView {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         commonInit()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-
         commonInit()
     }
 
     private func commonInit() {
-        progressTintColor = defaultProgressTintColor
-        trackTintColor = defaultTrackTintColor
+        // UIAppearance swizzles all setters that have a default apperance, and tracks when they get changed, so that UIAppearance doesn’t override your customizations.
+        // Only use direct ivar access in the initializer for properties that comply to UI_APPEARANCE_SELECTOR
+        progressLayer.strokeColor = kDefaultProgressTintColor.cgColor
+        backgroundColor = kDefaultTrackTintColor
         
         layer.addSublayer(progressLayer)
     }
@@ -86,7 +77,6 @@ final class ProgressView: UIView {
     // MARK: - Overrides
     override func layoutSubviews() {
         super.layoutSubviews()
-
         setLine(for: progressLayer, rect: bounds)
     }
 
